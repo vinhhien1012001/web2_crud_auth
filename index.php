@@ -1,7 +1,23 @@
 <?php
+include 'database.php';
 session_start();
 if (!isset($_SESSION['email'])) {
     header("Location: login.html");
+}
+
+if (isset($_POST['delete'])) {
+    $id = $_POST['id'];
+    $id = mysqli_real_escape_string($conn, $id);
+
+    $deleteQuery = "DELETE FROM products WHERE id = $id";
+    if (mysqli_query($conn, $deleteQuery)) {
+        $_SESSION['message'] = "Product deleted successfully!";
+    } else {
+        $_SESSION['message'] = "Error deleting product: " . mysqli_error($conn);
+    }
+
+    header("Location: index.php");
+    exit();
 }
 ?>
 
@@ -53,28 +69,24 @@ if (!isset($_SESSION['email'])) {
                             <td><?= $row['supplier'] ?></td>
                             <td><?= $row['category'] ?></td>
                             <td>
-                                <!-- EDIT -->
-                                <a href="edit.php?id=<?= $row['id'] ?>">Edit</a> |
-
-                                <!-- DELETE -->
-                                <a href="index.php?delete=<?= $row['id'] ?>"
-                                    onclick="return confirm('Are you sure?')">Delete</a>
+                                <button class="action_button">
+                                    <a href="edit.php?id=<?= $row['id'] ?>">Edit</a>
+                                </button>
+                                |
+                                <form method="POST" style="display: inline;">
+                                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                    <button class="action_button" type="submit" name="delete"
+                                        onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endwhile;
                 } else {
-                    // Display message when no products are found
                     echo "<tr><td colspan='6' style='text-align: center;'>No products added yet!</td></tr>";
                 }
                 ?>
-
-
-
             </table>
-
-
         </div>
-
     </div>
 </body>
 

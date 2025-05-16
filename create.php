@@ -35,7 +35,7 @@ if (isset($_POST['save'])) {
         <input class="mb-12" type="number" name="quantity" required>
 
         <label class="mb-4" for="price">Price</label>
-        <input class="mb-12" type="number" name="price" required>
+        <input class="mb-12" type="float" name="price" required>
 
         <label class="mb-4" for="supplier">Supplier</label>
         <input class="mb-12" type="text" name="supplier" required>

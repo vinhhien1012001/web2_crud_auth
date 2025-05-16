@@ -171,3 +171,10 @@ input {
   outline: none;
   border: 1px solid gray;
 }
+
+.action_button {
+  background-color: white;
+  border: none;
+  outline: none;
+  color: rgb(70, 148, 73);
+}
